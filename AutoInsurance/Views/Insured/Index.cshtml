@@ -1,0 +1,31 @@
+﻿@model AutoInsurance.Web.Models.ProposalViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>New Insured</h2>
+
+@using (Html.BeginForm("SelectCar","Car"))
+{
+    @Html.LabelFor(m => m.FirstName)
+    @Html.TextBoxFor(m => m.FirstName)
+    <br />
+    @Html.LabelFor(m => m.LastName)
+    @Html.TextBoxFor(m => m.LastName)
+    <br />
+    @Html.LabelFor(m => m.Age)
+    @Html.TextBoxFor(m => m.Age)
+    <br />
+    @Html.LabelFor(m => m.Cpf)
+    @Html.TextBoxFor(m => m.Cpf)
+    <br />
+    @Html.LabelFor(m => m.Rg)
+    @Html.TextBoxFor(m => m.Rg)
+    <br />
+    @Html.LabelFor(m => m.Gender)
+    @Html.TextBoxFor(m => m.Gender)
+    <br />
+    <br />
+    <button class="btn">Next</button>
+}

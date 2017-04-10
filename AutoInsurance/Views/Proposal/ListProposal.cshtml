@@ -1,0 +1,35 @@
+﻿@model List<AutoInsurance.Model.Proposal>
+
+@{
+    ViewBag.Title = "Proposals";
+}
+
+<h2>Proposals</h2>
+
+<br />
+
+@using (@Html.BeginForm())
+{
+    @Html.TextBox("NameSearch"); <br />
+    <button class="btn">Search</button>
+}
+
+<br />
+
+<table class ="table">
+    <tr>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Car</th>
+        <th>Value</th>
+    </tr>
+    @foreach (AutoInsurance.Model.Proposal p in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => p.Insured.FirstName)</td>
+            <td>@Html.DisplayFor(m => p.Insured.LastName)</td>
+            <td>@Html.DisplayFor(m => p.Car.Manufacturer) @Html.DisplayFor(m => p.Car.Model)</td>
+            <td>@p.Value.ToString("c")</td>
+        </tr>
+    }
+</table>
