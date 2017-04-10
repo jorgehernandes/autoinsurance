@@ -8,6 +8,8 @@ namespace AutoInsurance.Test
     [TestClass]
     public class ProposalTest
     {
+        static Proposal proposal;
+
         [TestMethod]
         public void TestInsertProposal()
         {
@@ -15,11 +17,22 @@ namespace AutoInsurance.Test
             CarBusiness carBusiness = new CarBusiness();
             InsuredBusiness insuredBusiness = new InsuredBusiness();
 
-            Proposal proposal = new Proposal();
-            proposal.Car = carBusiness.FindById(1);
-            proposal.Insured = insuredBusiness.FindById(1);
+            Proposal newProposal = new Proposal();
 
-            proposalBusiness.Save(proposal);
+            newProposal.Car = new Car
+            {
+                Id = carBusiness.FindById(1).Id
+            };
+
+            newProposal.Insured = new Insured
+            {
+                Id = insuredBusiness.FindById(1).Id
+            };
+
+            proposalBusiness.Calculate(newProposal);
+            proposalBusiness.Save(newProposal);
+
+            proposal = newProposal;
 
             Assert.IsTrue(proposal.Id > 0);
         }
@@ -29,6 +42,24 @@ namespace AutoInsurance.Test
         {
             ProposalBusiness proposalBusiness = new ProposalBusiness();
             Assert.IsTrue(proposalBusiness.FindAll().Count > 0);
+        }
+
+        [TestMethod]
+        public void TestFindProposalById()
+        {
+            ProposalBusiness proposalBusiness = new ProposalBusiness();
+            Proposal testProposal = proposalBusiness.FindById(proposal.Id);
+
+            Assert.AreEqual(testProposal.Id, proposal.Id);
+        }
+
+        [TestMethod]
+        public void TestDeleteProposal()
+        {
+            ProposalBusiness proposalBusiness = new ProposalBusiness();
+            Proposal deletedProposal = proposalBusiness.Delete(proposal.Id);
+
+            Assert.AreEqual(deletedProposal.Id, proposal.Id);
         }
     }
 }

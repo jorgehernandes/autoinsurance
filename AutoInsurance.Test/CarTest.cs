@@ -13,6 +13,8 @@ namespace AutoInsurance.Test
     [TestClass]
     public class CarTest
     {
+        static Car car;
+
         [TestMethod]
         public void TestInsertCar()
         {
@@ -26,6 +28,8 @@ namespace AutoInsurance.Test
             CarBusiness carBusiness = new CarBusiness();
             carBusiness.Save(carModel);
 
+            car = carModel;
+
             Assert.IsTrue(carModel.Id > 0);
         }
 
@@ -37,24 +41,21 @@ namespace AutoInsurance.Test
 
             Assert.IsTrue(cars.Count > 0);
         }
+
         [TestMethod]
         public void TestFindCarById()
         {
             CarBusiness carBusiness = new CarBusiness();
-            Car car = new Car() 
-            { 
-                Manufacturer = "Fiat",
-                Model = "500",
-                Year = 2001,
-                Photo = "about:blank"            
-            };
-
-            carBusiness.Save(car);
             Assert.AreNotEqual(null, carBusiness.FindById(car.Id));
+        }
 
-           
-           
-            
+        [TestMethod]
+        public void TestDeleteCar()
+        {
+            CarBusiness carBusiness = new CarBusiness();
+            Car carDeleted = carBusiness.Delete(car.Id);
+
+            Assert.AreEqual(car.Id, carDeleted.Id);
         }
     }
 }

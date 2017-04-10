@@ -9,32 +9,22 @@ namespace AutoInsurance.Test
     [TestClass]
     public class InsuredTest
     {
+        static Insured insured = new Insured();
+
         [TestMethod]
         public void TestInsertInsured()
         {
-            Insured insured = new Insured();
-            insured.Age = 18;
-            insured.FirstName = "Paulo";
-            insured.LastName = "Silva";
+            Insured newInsured = new Insured();
+            newInsured.Age = 18;
+            newInsured.FirstName = "Paulo";
+            newInsured.LastName = "Silva";
 
             InsuredBusiness insuredBusiness = new InsuredBusiness();
-            insuredBusiness.Save(insured);
+            insuredBusiness.Save(newInsured);
+
+            insured = newInsured;
 
             Assert.IsTrue(insured.Id > 0);
-        }
-
-        [TestMethod]
-        public void TestFindInsured()
-        {
-            Insured insured = new Insured();
-            insured.Age = 18;
-            insured.FirstName = "Paulo";
-            insured.LastName = "Silva";
-
-            InsuredBusiness insuredBusiness = new InsuredBusiness();
-            insuredBusiness.Save(insured);
-
-            Assert.IsTrue(insuredBusiness.FindById(insured.Id).Id == insured.Id);
         }
 
         [TestMethod]
@@ -44,5 +34,22 @@ namespace AutoInsurance.Test
 
             Assert.IsTrue(insuredBusiness.FindAll().Count > 0);
         }
+
+        [TestMethod]
+        public void TestFindInsuredById()
+        {
+            InsuredBusiness insuredBusiness = new InsuredBusiness();
+
+            Assert.IsTrue(insuredBusiness.FindById(insured.Id).Id == insured.Id);
+        }
+
+        [TestMethod]
+        public void TestDeleteInsured()
+        {
+            InsuredBusiness insuredBusiness = new InsuredBusiness();
+
+            Assert.AreEqual(insured.Id, insuredBusiness.Delete(insured.Id).Id);
+        }
+
     }
 }
