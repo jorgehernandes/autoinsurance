@@ -40,8 +40,9 @@ namespace AutoInsurance.Web.Controllers
 
         public ActionResult Save(ProposalViewModel obj)
         {
-            Proposal proposal = new Proposal();
-            proposal.Insured = new Insured()
+            InsuredBusiness insuredBusiness = new InsuredBusiness();
+
+            Insured insured = new Insured
             {
                 FirstName = obj.FirstName,
                 LastName = obj.LastName,
@@ -51,10 +52,26 @@ namespace AutoInsurance.Web.Controllers
                 Gender = obj.Gender
             };
 
-            proposal.Car = new Car() { Id = obj.CarId };
+            if (insuredBusiness.Save(insured))
+            {
 
-            ProposalBusiness proposalBusiness = new ProposalBusiness();
-            proposalBusiness.Save(proposal);
+                Proposal proposal = new Proposal();
+
+                proposal.Car = new Car
+                {
+                    Id = obj.CarId
+                };
+
+                proposal.Insured = new Insured
+                {
+                    Id = insured.Id
+                };
+
+                proposal.Value = obj.Value;
+
+                ProposalBusiness proposalBusiness = new ProposalBusiness();
+                proposalBusiness.Save(proposal);
+            }
 
             return RedirectToAction("Index", "Home");
         }

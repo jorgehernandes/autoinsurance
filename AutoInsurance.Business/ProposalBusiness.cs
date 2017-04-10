@@ -15,8 +15,6 @@ namespace AutoInsurance.Business
             try
             {
                 ProposalRepository repository = new ProposalRepository();
-                Calculate(obj);
-
                 return repository.Save(obj);
             }
             catch (Exception)
@@ -45,15 +43,15 @@ namespace AutoInsurance.Business
             return repository.FindById(Id);
         }
 
-        public bool Delete(Proposal obj)
+        public Proposal Delete(int id)
         {
             ProposalRepository repository = new ProposalRepository();
-            return repository.Delete(obj);
+            return repository.Delete(id);
         }
 
         public void Calculate(Proposal obj)
         {
-            obj.Value = (int)new Random().Next(500, 2000);
+            obj.Value = new Random().Next(500, 2000);
         }
     }
 }

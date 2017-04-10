@@ -9,18 +9,18 @@ namespace AutoInsurance.Data
 {
     public class ProposalRepository
     {
+        static readonly Database database = new Database();
+
         public bool Save(Proposal obj)
         {
             try
             {
-                using (Database db = new Database())
-                {
-                    obj.Car = db.Car.FirstOrDefault<Car>(m => m.Id == obj.Car.Id);
+                obj.Car = database.Car.FirstOrDefault<Car>(m => m.Id == obj.Car.Id);
+                obj.Insured = database.Insured.FirstOrDefault<Insured>(i => i.Id == obj.Insured.Id);
+                database.Proposal.Add(obj);
 
-                    db.Proposal.Add(obj);
-                    db.SaveChanges();
-                    return true;
-                }
+                database.SaveChanges();
+                return true;
             }
             catch (Exception)
             {
@@ -32,13 +32,10 @@ namespace AutoInsurance.Data
         {
             try
             {
-                using (Database database = new Database())
-                {
-                    return database.Proposal
-                                   .Include("Car")
-                                   .Include("Insured")
-                                   .ToList<Proposal>();
-                }
+                return database.Proposal
+                                .Include("Car")
+                                .Include("Insured")
+                                .ToList<Proposal>();
             }
             catch (Exception)
             {
@@ -46,14 +43,38 @@ namespace AutoInsurance.Data
             }
         }
 
-        public Proposal FindById(int Id)
+        public Proposal FindById(int id)
         {
-            return new Proposal();
+            Proposal proposal;
+
+            try
+            {
+                proposal = (from p in database.Proposal
+                            where p.Id == id
+                            select p).FirstOrDefault<Proposal>();
+
+                return proposal;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public bool Delete(Proposal obj)
+        public Proposal Delete(int id)
         {
-            return true;
+            try
+            {
+                Proposal proposal = FindById(id);
+                Proposal deletedProposal = database.Proposal.Remove(proposal);
+                database.SaveChanges();
+
+                return deletedProposal;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

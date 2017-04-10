@@ -9,14 +9,14 @@ namespace AutoInsurance.Data
 {
     public class CarRepository
     {
+        static readonly Database database = new Database();
+
         public bool Save(Car obj)
         {
             try
             {
-                Database Database = new Database();
-
-                Database.Car.Add(obj);
-                Database.SaveChanges();
+                database.Car.Add(obj);
+                database.SaveChanges();
 
                 return true;
             }
@@ -30,9 +30,7 @@ namespace AutoInsurance.Data
         {
             try
             {
-                Database Database = new Database();
-
-                return (from c in Database.Car
+                return (from c in database.Car
                         select c).ToList<Car>();
             }
             catch (Exception)
@@ -48,8 +46,6 @@ namespace AutoInsurance.Data
         {
             try
             {
-                Database database = new Database();
-
                 return (from c in database.Car
                         where c.Id == Id
                         select c).FirstOrDefault<Car>();
@@ -60,9 +56,20 @@ namespace AutoInsurance.Data
             }
         }
 
-        public bool Delete(Car obj)
+        public Car Delete(int id)
         {
-            return true;
+            try
+            {
+                Car car = FindById(id);
+                Car carDeleted = database.Car.Remove(car);
+                database.SaveChanges();
+
+                return carDeleted;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

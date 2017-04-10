@@ -52,12 +52,12 @@ namespace AutoInsurance.Business
             }
         }
 
-        public bool Delete(Car obj)
+        public Car Delete(int id)
         {
             try
             {
                 CarRepository repository = new CarRepository();
-                return repository.Delete(obj);
+                return repository.Delete(id);
             }
             catch (Exception)
             {

@@ -51,10 +51,10 @@ namespace AutoInsurance.Business
             }
         }
 
-        public bool Delete(Insured obj)
+        public Insured Delete(int id)
         {
             InsuredRepository repository = new InsuredRepository();
-            return repository.Delete(obj);
+            return repository.Delete(id);
         }
     }
 }
