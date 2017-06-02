@@ -155,6 +155,9 @@
     <Content Include="Content\themes\bootstrap\js\bootstrap.js" />
     <Content Include="Content\themes\bootstrap\js\bootstrap.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="deploy.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
