@@ -17,7 +17,7 @@ try
 {
     $itens = Get-ChildItem $Origem | Where-Object {$_.Name -NotContains "deploy.ps1"}
 
-    $Destino = $Destino + "\" + $Ambiente + "\" + $Projeto
+    $Destino = $Destino + "\" + $Ambiente + "\" + $Projeto + "\bin"
 
     if (-Not (Test-Path $Destino)) 
     {
