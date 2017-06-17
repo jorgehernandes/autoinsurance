@@ -15,7 +15,7 @@ Write-Output ""
 Write-Output "COPIANDO ARTEFATOS"
 try
 {
-    $itens = Get-ChildItem $Origem -recurse | Where-Object {$_.Name -NotContains "deploy.ps1"}
+    $itens = Get-ChildItem $Origem | Where-Object {$_.Name -NotContains "deploy.ps1"}
 
     $Destino = $Destino + "\" + $Ambiente + "\" + $Projeto
 
